@@ -1,0 +1,37 @@
+# 2 ядра и 4гб выделено под VM
+
+
+time python3 job.py wiki.txt -o result_local
+
+real    3m41.053s
+user    3m14.686s
+sys     0m8.224s
+
+
+time python3 job.py -r hadoop hdfs:///user/root/wiki.txt -o hdfs:///user/root/result_hadoop
+
+real    2m48.662s
+user    0m30.212s
+sys     0m3.260s
+
+
+time python3 job.py wiki_trunc.txt -o result_local_trunc
+
+real    0m6.957s
+user    0m6.416s
+sys     0m0.348s
+
+
+time python3 job.py -r hadoop hdfs:///user/root/wiki_trunc.txt -o hdfs:///user/root/result_hadoop_trunc
+
+real    0m51.514s
+user    0m28.088s
+sys     0m3.132s
+
+
+# Можно сделать следующие выводы:
+# На небольших объемах данных hadoop сильно уступает за счет накладных расходов.
+# На больших же вырывается вперед.
+# Однако есть важные моменты с конфигурацией машины.
+# Изначально на 1 ядре и 2гб запуск на wiki.txt под hadoop занял около 12 минут,
+# хотя локально отработало почти с той же скоростью.
